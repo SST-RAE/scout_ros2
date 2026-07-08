@@ -1,5 +1,8 @@
 # ROS2 Packages for Scout Mobile Robot
 
+## Note
+The CAN communication between the Raspberry Pi and the computer happens in this SDK [ugv_sdk](https://github.com/westonrobot/ugv_sdk). Need to follow SDK initialisation instructions inside repo on robot first use.
+
 ## Packages
 
 This repository contains minimal packages to control the scout robot using ROS. 
