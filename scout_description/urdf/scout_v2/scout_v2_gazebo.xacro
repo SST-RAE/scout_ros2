@@ -31,6 +31,7 @@
   </gazebo>
 
   <gazebo reference="rplidar_link">
+    <material>Gazebo/Black</material>
     <sensor name="rplidar" type="gpu_lidar">
       <pose>0 0 0 0 0 0</pose>
       <topic>/scan</topic>

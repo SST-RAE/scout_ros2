@@ -67,19 +67,43 @@
         <child link="inertial_link" />
     </joint>
     <link name="rplidar_link">
+        <inertial>
+            <mass value="0.19" />
+            <origin xyz="0 0 0" />
+            <inertia ixx="0.00012" ixy="0" ixz="0" iyy="0.00012" iyz="0" izz="0.00018" />
+        </inertial>
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 0" />
+            <origin xyz="0 0 0.02" rpy="0 0 0" />
             <geometry>
-                <cylinder length="0.06" radius="0.005" />
+                <cylinder length="0.04" radius="0.04" />
             </geometry>
+            <material name="rplidar_black">
+                <color rgba="0.02 0.02 0.02 1.0" />
+            </material>
         </visual>
+        <visual>
+            <origin xyz="0 0 0.045" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.01" radius="0.032" />
+            </geometry>
+            <material name="rplidar_cap">
+                <color rgba="0.10 0.10 0.10 1.0" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.02" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.04" radius="0.04" />
+            </geometry>
+        </collision>
     </link>
 
     <joint name="rplidar_joint" type="fixed">
         <parent link="base_link" />
         <child link="rplidar_link" />
-        <origin xyz="0.3 0.0 0.20" rpy="0 0 0" />
+        <origin xyz="-0.28 0.0 0.3" rpy="0 0 0" />
     </joint>
+
 
     <!-- Scout wheel macros -->
     <!-- wheel labeled from 0 to 3, conter-clockwise, starting from front right wheel -->
