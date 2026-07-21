@@ -66,6 +66,19 @@
         <parent link="base_link" />
         <child link="inertial_link" />
     </joint>
+  <link name="rplidar_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0">
+      <geometry>
+        <cylinder length="0.06" radius="0.005"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="rplidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="rplidar_link"/>
+    <origin xyz="0.15 0.0 0.20" rpy="0 0 0"/>
+  </joint>
 
     <!-- Scout wheel macros -->
     <!-- wheel labeled from 0 to 3, conter-clockwise, starting from front right wheel -->
