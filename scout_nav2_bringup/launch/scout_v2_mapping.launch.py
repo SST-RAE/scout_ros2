@@ -95,6 +95,7 @@ def generate_launch_description():
                 'odom_topic_name': 'odom',
                 'is_scout_mini': False,
                 'is_omni_wheel': False,
+                'auto_reconnect': True
                 'simulated_robot': False,
                 'control_rate': 50,
             }],
