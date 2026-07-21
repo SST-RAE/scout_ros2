@@ -24,7 +24,13 @@ This repository contains minimal packages to control the scout robot using ROS.
 1. Clone the packages into your colcon workspace and compile
 
     (the following instructions assume your catkin workspace is at: ~/ros2_ws/src)
-
+    Installation of other packages
+    Install packages
+    ```
+    $  sudo apt install ros-jazzy-slam-toolbox
+    $  sudo apt install ros-jazzy-navigation2 ros-jazzy-nav2-bringup
+    $  
+    ```
     ```
     $ mkdir -p ~/ros2_ws/src
     $ cd ~/ros2_ws/src
@@ -33,6 +39,11 @@ This repository contains minimal packages to control the scout robot using ROS.
     $ cd ..
     $ colcon build
     ```
+    After this add
+    ```
+    source /opt/ros/jazzy/setup.bash
+    source ~/ros2_ws/install/setup.bash
+    ``` to ~/.bashrc
 
 2. Launch ROS nodes
  
