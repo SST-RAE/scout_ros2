@@ -131,7 +131,7 @@ def generate_launch_description():
             parameters=[{
                 'serial_port': '/dev/ttyUSB0',
                 'serial_baudrate': 256000,  # A3
-                'frame_id': 'laser',
+                'frame_id': 'rplidar_link',
                 'inverted': False,
                 'angle_compensate': True,
                 'scan_mode': 'Sensitivity',
