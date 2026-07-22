@@ -95,7 +95,7 @@ def generate_launch_description():
                 'odom_topic_name': 'odom',
                 'is_scout_mini': False,
                 'is_omni_wheel': False,
-                'auto_reconnect': True
+                'auto_reconnect': True,
                 'simulated_robot': False,
                 'control_rate': 50,
             }],
@@ -129,7 +129,7 @@ def generate_launch_description():
             executable='rplidar_composition',
             output='screen',
             parameters=[{
-                'serial_port': '/dev/ttyUSB0',
+                'serial_port': '/dev/ttyUSB1',
                 'serial_baudrate': 256000,  # A3
                 'frame_id': 'rplidar_link',
                 'inverted': False,
