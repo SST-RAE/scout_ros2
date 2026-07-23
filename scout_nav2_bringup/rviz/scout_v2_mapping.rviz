@@ -57,7 +57,7 @@ Visualization Manager:
         Value: /robot_description
   Enabled: true
   Global Options:
-    Fixed Frame: map
+    Fixed Frame: odom
   Name: root
   Tools:
     - Class: rviz_default_plugins/Interact
@@ -75,7 +75,7 @@ Visualization Manager:
       Distance: 10
       Name: Current View
       Pitch: 1.2
-      Target Frame: map
+      Target Frame: odom
       Yaw: 0
 Window Geometry:
   Height: 900

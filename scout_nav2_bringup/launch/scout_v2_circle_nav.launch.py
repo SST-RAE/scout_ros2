@@ -93,14 +93,14 @@ def generate_launch_description():
         ),
 
         Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            name='base_to_laser_tf',
-            arguments=[
-                lidar_x, lidar_y, lidar_z,
-                lidar_roll, lidar_pitch, lidar_yaw,
-                'base_link', 'laser',
-            ],
+            package='joint_state_publisher',
+            executable='joint_state_publisher',
+            name='joint_state_publisher',
+            output='screen',
+            parameters=[{
+                'use_sim_time': use_sim_time,
+                'rate': 50,
+            }],
         ),
 
         Node(
