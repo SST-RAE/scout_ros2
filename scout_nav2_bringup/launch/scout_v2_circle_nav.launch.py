@@ -104,23 +104,23 @@ def generate_launch_description():
         ),
 
         Node(
-            name='rplidar_composition',
-            package='rplidar_ros',
-            executable='rplidar_composition',
-            output='screen',
-            parameters=[{
-                'serial_port': '/dev/ttyUSB1',
-                'serial_baudrate': 256000,
-                'frame_id': 'rplidar_link',
-                'inverted': False,
-                'angle_compensate': True,
-                'scan_mode': 'Sensitivity',
-            }],
-        ),
+                    name='rplidar_composition',
+                    package='rplidar_ros',
+                    executable='rplidar_composition',
+                    output='screen',
+                    parameters=[{
+                        'serial_port': '/dev/ttyUSB1',
+                        'serial_baudrate': 256000,  # A3
+                        'frame_id': 'laser',
+                        'inverted': False,
+                        'angle_compensate': True,
+                        'scan_mode': 'Sensitivity',
+                    }],
+                ),
 
         Node(
             package='nav2_costmap_2d',
-            executable='costmap_2d_ros',
+            executable='nav2_costmap_2d',
             name='local_costmap',
             output='screen',
             parameters=[nav2_params_file],

@@ -369,8 +369,12 @@ void rplidar_node::publish_loop()
           float angle = getAngle(nodes[i]);
           int angle_value = (int)(angle * m_angle_compensate_multiple);
           if ((angle_value - angle_compensate_offset) < 0) {angle_compensate_offset = angle_value;}
+          int compensated_idx = angle_value - angle_compensate_offset;
           for (j = 0; j < m_angle_compensate_multiple; j++) {
-            angle_compensate_nodes[angle_value - angle_compensate_offset + j] = nodes[i];
+            int idx = compensated_idx + j;
+            if (idx >= 0 && idx < angle_compensate_nodes_count) {
+              angle_compensate_nodes[idx] = nodes[i];
+            }
           }
         }
       }
@@ -379,12 +383,14 @@ void rplidar_node::publish_loop()
     } else {
       int start_node = 0, end_node = 0;
       int i = 0;
-      // find the first valid node and last valid node
-      while (nodes[i++].dist_mm_q2 == 0) {}
-      start_node = i - 1;
-      i = count - 1;
-      while (nodes[i--].dist_mm_q2 == 0) {}
-      end_node = i + 1;
+      while (i < static_cast<int>(count) && nodes[i].dist_mm_q2 == 0) {i++;}
+      start_node = i;
+      i = static_cast<int>(count) - 1;
+      while (i >= 0 && nodes[i].dist_mm_q2 == 0) {i--;}
+      end_node = i;
+      if (start_node > end_node) {
+        return;
+      }
 
       angle_min = deg_2_rad(getAngle(nodes[start_node]));
       angle_max = deg_2_rad(getAngle(nodes[end_node]));
