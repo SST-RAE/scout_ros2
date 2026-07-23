@@ -40,36 +40,68 @@ local_costmap:
       inflation_radius: 0.75
     always_send_full_costmap: true
 
-collision_monitor:
+controller_server:
   ros__parameters:
     use_sim_time: false
-    base_frame_id: base_link
-    odom_frame_id: odom
-    cmd_vel_in_topic: cmd_vel_smoothed
-    cmd_vel_out_topic: cmd_vel
-    state_topic: collision_monitor_state
-    transform_tolerance: 0.5
-    source_timeout: 1.0
-    base_shift_correction: true
-    stop_pub_timeout: 2.0
-    polygons: [FootprintApproach]
-    FootprintApproach:
-      type: polygon
-      action_type: approach
-      points: "[[0.465, 0.35], [0.465, -0.35], [-0.465, -0.35], [-0.465, 0.35]]"
-      footprint_topic: /local_costmap/published_footprint
-      time_before_collision: 1.2
-      simulation_time_step: 0.1
-      min_points: 6
-      visualize: false
-      enabled: true
-    observation_sources: [scan]
-    scan:
-      type: scan
-      topic: scan
-      min_height: 0.15
-      max_height: 2.0
-      enabled: true
+    controller_frequency: 20.0
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.5
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.3
+    progress_checker_plugins: [progress_checker]
+    goal_checker_plugins: [general_goal_checker]
+    controller_plugins: [FollowPath]
+
+    progress_checker:
+      plugin: nav2_controller::SimpleProgressChecker
+      required_movement_radius: 0.5
+      movement_time_allowance: 10.0
+
+    general_goal_checker:
+      stateful: true
+      plugin: nav2_controller::SimpleGoalChecker
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
+
+    FollowPath:
+      plugin: dwb_core::DWBLocalPlanner
+      debug_trajectory_details: false
+      min_vel_x: 0.0
+      min_vel_y: 0.0
+      max_vel_x: 0.7
+      max_vel_y: 0.0
+      max_vel_theta: 1.0
+      min_speed_xy: 0.0
+      max_speed_xy: 0.7
+      min_speed_theta: 0.0
+      acc_lim_x: 0.7
+      acc_lim_y: 0.0
+      acc_lim_theta: 1.0
+      decel_lim_x: -0.7
+      decel_lim_y: 0.0
+      decel_lim_theta: -1.0
+      vx_samples: 20
+      vy_samples: 1
+      vtheta_samples: 20
+      sim_time: 1.7
+      linear_granularity: 0.05
+      angular_granularity: 0.025
+      transform_tolerance: 0.2
+      xy_goal_tolerance: 0.25
+      trans_stopped_velocity: 0.25
+      short_circuit_trajectory_evaluation: true
+      stateful: true
+      critics: [RotateToGoal, Oscillation, BaseObstacle, GoalAlign, PathAlign, PathDist, GoalDist]
+      BaseObstacle.scale: 0.02
+      PathAlign.scale: 32.0
+      PathAlign.forward_point_distance: 0.1
+      GoalAlign.scale: 24.0
+      GoalAlign.forward_point_distance: 0.1
+      PathDist.scale: 32.0
+      GoalDist.scale: 24.0
+      RotateToGoal.scale: 32.0
+      RotateToGoal.slowing_factor: 5.0
+      RotateToGoal.lookahead_time: -1.0
 
 lifecycle_manager:
   ros__parameters:
@@ -78,4 +110,4 @@ lifecycle_manager:
     bond_timeout: 60.0
     node_names:
       - local_costmap
-      - collision_monitor
+      - controller_server

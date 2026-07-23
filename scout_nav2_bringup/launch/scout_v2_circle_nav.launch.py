@@ -20,7 +20,7 @@ def generate_launch_description():
     rviz_config = LaunchConfiguration('rviz_config')
     start_rviz = LaunchConfiguration('start_rviz')
     linear_speed = LaunchConfiguration('linear_speed')
-    angular_speed = LaunchConfiguration('angular_speed')
+    circle_radius = LaunchConfiguration('circle_radius')
 
     robot_description = Command([
         PathJoinSubstitution([FindExecutable(name='xacro')]),
@@ -43,7 +43,7 @@ def generate_launch_description():
         DeclareLaunchArgument('lidar_pitch', default_value='0.0'),
         DeclareLaunchArgument('lidar_yaw', default_value='0.0'),
         DeclareLaunchArgument('linear_speed', default_value='0.3'),
-        DeclareLaunchArgument('angular_speed', default_value='0.5'),
+        DeclareLaunchArgument('circle_radius', default_value='2.0'),
         DeclareLaunchArgument(
             'nav2_params_file',
             default_value=PathJoinSubstitution([
@@ -104,19 +104,19 @@ def generate_launch_description():
         ),
 
         Node(
-                    name='rplidar_composition',
-                    package='rplidar_ros',
-                    executable='rplidar_composition',
-                    output='screen',
-                    parameters=[{
-                        'serial_port': '/dev/ttyUSB1',
-                        'serial_baudrate': 256000,  # A3
-                        'frame_id': 'laser',
-                        'inverted': False,
-                        'angle_compensate': True,
-                        'scan_mode': 'Sensitivity',
-                    }],
-                ),
+            name='rplidar_composition',
+            package='rplidar_ros',
+            executable='rplidar_composition',
+            output='screen',
+            parameters=[{
+                'serial_port': '/dev/ttyUSB1',
+                'serial_baudrate': 256000,
+                'frame_id': 'laser',
+                'inverted': False,
+                'angle_compensate': True,
+                'scan_mode': 'Sensitivity',
+            }],
+        ),
 
         Node(
             package='nav2_costmap_2d',
@@ -127,9 +127,9 @@ def generate_launch_description():
         ),
 
         Node(
-            package='nav2_collision_monitor',
-            executable='collision_monitor',
-            name='collision_monitor',
+            package='nav2_controller',
+            executable='controller_server',
+            name='controller_server',
             output='screen',
             parameters=[nav2_params_file],
         ),
@@ -150,7 +150,7 @@ def generate_launch_description():
             parameters=[{
                 'use_sim_time': use_sim_time,
                 'linear_speed': linear_speed,
-                'angular_speed': angular_speed,
+                'circle_radius': circle_radius,
             }],
         ),
 
