@@ -5,7 +5,7 @@ local_costmap:
     publish_frequency: 2.0
     global_frame: odom
     robot_base_frame: base_link
-    transform_tolerance: 0.5
+    transform_tolerance: 1.0
     rolling_window: true
     width: 3
     height: 3
@@ -46,7 +46,7 @@ collision_monitor:
     cmd_vel_in_topic: cmd_vel_smoothed
     cmd_vel_out_topic: cmd_vel
     state_topic: collision_monitor_state
-    transform_tolerance: 0.2
+    transform_tolerance: 0.5
     source_timeout: 1.0
     base_shift_correction: true
     stop_pub_timeout: 2.0
@@ -72,7 +72,7 @@ lifecycle_manager:
   ros__parameters:
     use_sim_time: false
     autostart: true
-    bond_timeout: 10.0
+    bond_timeout: 30.0
     node_names:
       - local_costmap
       - collision_monitor
