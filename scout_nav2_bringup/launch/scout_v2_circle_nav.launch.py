@@ -109,7 +109,7 @@ def generate_launch_description():
             executable='rplidar_composition',
             output='screen',
             parameters=[{
-                'serial_port': '/dev/ttyUSB1',
+                'serial_port': '/dev/ttyUSB0',
                 'serial_baudrate': 256000,
                 'frame_id': 'laser',
                 'inverted': False,
@@ -117,13 +117,21 @@ def generate_launch_description():
                 'scan_mode': 'Sensitivity',
             }],
         ),
-
         Node(
-            package='nav2_costmap_2d',
-            executable='nav2_costmap_2d',
-            name='local_costmap',
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name='laser_static_transform',
             output='screen',
-            parameters=[nav2_params_file],
+            arguments=[
+                '--x', lidar_x, 
+                '--y', lidar_y, 
+                '--z', lidar_z,
+                '--yaw', lidar_yaw, 
+                '--pitch', lidar_pitch, 
+                '--roll', lidar_roll,
+                '--frame-id', 'base_link', 
+                '--child-frame-id', 'laser'
+            ]
         ),
 
         Node(

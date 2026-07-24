@@ -65,7 +65,10 @@ class CircleDriverNode(Node):
         path.header.frame_id = 'odom'
         path.header.stamp = self.get_clock().now().to_msg()
 
-        for i in range(self.num_waypoints + 1):
+        # Generate 90% of the circle to prevent instant goal completion
+        target_waypoints = int(self.num_waypoints * 0.9)
+
+        for i in range(target_waypoints):
             angle = start_angle + 2.0 * math.pi * i / self.num_waypoints
             px = center_x + self.circle_radius * math.cos(angle)
             py = center_y + self.circle_radius * math.sin(angle)
@@ -102,7 +105,6 @@ class CircleDriverNode(Node):
         goal = FollowPath.Goal()
         goal.path = path
         goal.controller_id = 'FollowPath'
-        goal.speed_limit = self.linear_speed
 
         self.goal_in_progress = True
         send_goal_future = self.action_client.send_goal_async(
@@ -147,8 +149,9 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
-
+        # Add the if check here to prevent the crash on exit
+        if rclpy.ok():
+            rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
